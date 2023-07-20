@@ -40,7 +40,7 @@
     "test": "run-s test:*",
     "test:deptree": "depcruise --validate .dependency-cruiser.json .",
     "test:standard": "standard",
-    "test:node-test": "METRICS=0 c8 node --test --test-reporter spec",
+    "test:node-test": "c8 node --test --test-reporter spec",
     "version": "run-s version:*",
     "version:changelog": "auto-changelog -p --template keepachangelog auto-changelog --breaking-pattern 'BREAKING CHANGE:'",
     "version:git": "git add CHANGELOG.md",
