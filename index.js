@@ -1,9 +1,11 @@
 import { isIP } from 'node:net'
 import { resolveMx, resolve4, resolve6 } from 'node:dns/promises'
+import { disposable } from './disposable.cjs'
 
 export async function _resolveMx (email, opts) {
   opts = {
     allowIps: false,
+    allowDisposable: false,
     ...opts
   }
   const domain = (email.split('@').pop() || '').toLowerCase().trim().replace(/^\[(ipv6:)?|\]$/gi, '')
@@ -17,6 +19,10 @@ export async function _resolveMx (email, opts) {
     } else {
       throw new Error('An email address with an IP address for the domain was is disallowed')
     }
+  }
+
+  if (disposable.has(domain) && !opts.allowDisposable) {
+    throw new Error('Disposable email addresses are disallowed')
   }
 
   try {

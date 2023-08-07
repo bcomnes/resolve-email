@@ -1,0 +1,3 @@
+[submodule "disposable-email-domains"]
+	path = disposable-email-domains
+	url = git@github.com:disposable-email-domains/disposable-email-domains.git

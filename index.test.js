@@ -10,6 +10,10 @@ const inputs = [
   {
     in: 'bcomnes@gmailc.om',
     expect: false
+  },
+  {
+    in: 'fofegoj914@naymedia.com',
+    expect: false
   }
 ]
 

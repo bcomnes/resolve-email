@@ -5,7 +5,7 @@
 [![downloads](https://img.shields.io/npm/dm/resolve-email.svg)](https://npmtrends.com/resolve-email)
 [![Socket Badge](https://socket.dev/api/badge/npm/package/resolve-email)](https://socket.dev/npm/package/resolve-email)
 
-Resolve the domain of a syntactically valid email address to see if there is even a chance of deliverability.
+Resolve the domain of a syntactically valid email address to see if there is even a chance of deliverability. Also checks against a large list of disposable email address domains and rejects those.
 
 ```
 npm install resolve-email
@@ -28,6 +28,11 @@ console.log(results)
 ## See also
 
 This module was adapted from [nodemailer/nodemailer-direct-transport](https://github.com/nodemailer/nodemailer-direct-transport/blob/v3.3.2/lib/direct-transport.js#L438)
+
+The disposable email domain list is generated from the following data sources:
+
+- https://github.com/romainsimon/emailvalid
+- https://github.com/disposable-email-domains/disposable-email-domains
 
 ## License
 
