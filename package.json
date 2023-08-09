@@ -46,7 +46,7 @@
     "test:deptree": "depcruise --validate .dependency-cruiser.json .",
     "test:standard": "standard",
     "test:node-test": "c8 node --test --test-reporter spec",
-    "version": "run-s version:*",
+    "version": "run-s prepare version:*",
     "version:changelog": "auto-changelog -p --template keepachangelog auto-changelog --breaking-pattern 'BREAKING CHANGE:'",
     "version:git": "git add CHANGELOG.md disposable.json",
     "deps": "depcruise --exclude '^node_modules' --output-type dot . | dot -T svg | depcruise-wrap-stream-in-html > dependency-graph.html"
