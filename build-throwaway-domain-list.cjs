@@ -5,29 +5,35 @@ const emailvalidDomains = require('emailvalid/domains.json')
 const disposableEmailDomains = new Set()
 
 const disposableEmailDomainsPath = join(__dirname, 'disposable-email-domains', 'disposable_email_blocklist.conf')
+const allowList = join(__dirname, 'disposable-email-domains', 'allowlist.conf')
 
-readFile(disposableEmailDomainsPath, { encoding: 'utf-8' })
-  .then(async data => {
-    const disposableEmailDomainsRaw = data
-    const disposableEmailDomainsList = disposableEmailDomainsRaw.split('\n').slice(0, -1)
-    for (const domain of disposableEmailDomainsList) {
-      disposableEmailDomains.add(domain)
-    }
-  })
-  .then(async () => {
-    const disposableOnly = Object.entries(emailvalidDomains).filter(([domain, type]) => type === 'disposable').map(([domain, type]) => domain)
+const work = async () => {
+  console.log('Adding disposable-email-domains')
+  const disposableEmailDomainsRaw = await readFile(disposableEmailDomainsPath, { encoding: 'utf-8' })
+  const disposableEmailDomainsList = disposableEmailDomainsRaw.split('\n').slice(0, -1)
+  for (const domain of disposableEmailDomainsList) {
+    disposableEmailDomains.add(domain)
+  }
 
-    for (const domain of disposableOnly) {
-      disposableEmailDomains.add(domain)
-    }
-  })
-  .then(async () => {
-    return await writeFile('disposable.json', JSON.stringify(Array.from(disposableEmailDomains).sort(), null, ' '))
-  })
-  .then(async () => {
-    console.log('done')
-  })
-  .catch(err => {
-    console.error(err)
-    process.exit(1)
-  })
+  console.log('Adding emailvalid')
+  const disposableOnly = Object.entries(emailvalidDomains).filter(([domain, type]) => type === 'disposable').map(([domain, type]) => domain)
+
+  for (const domain of disposableOnly) {
+    disposableEmailDomains.add(domain)
+  }
+
+  console.log('Removing anything in allowlist')
+  const allowDataRaw = await readFile(allowList, { encoding: 'utf-8' })
+  const allowData = allowDataRaw.split('\n').slice(0, -1)
+  for (const domain of allowData) {
+    disposableEmailDomains.delete(domain)
+  }
+
+  await writeFile('disposable.json', JSON.stringify(Array.from(disposableEmailDomains).sort(), null, ' '))
+  console.log('done')
+}
+
+work().catch(err => {
+  console.error(err)
+  process.exit(1)
+})
