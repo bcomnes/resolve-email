@@ -29,6 +29,14 @@ const work = async () => {
     disposableEmailDomains.delete(domain)
   }
 
+  console.log('Add in any other random domains I dont want to register')
+  const unwatedDomains = [
+    'tmail.link'
+  ]
+  for (const unwantedDomain of unwatedDomains) {
+    disposableEmailDomains.add(unwantedDomain)
+  }
+
   await writeFile('disposable.json', JSON.stringify(Array.from(disposableEmailDomains).sort(), null, ' '))
   console.log('done')
 }
