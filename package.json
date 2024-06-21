@@ -7,7 +7,7 @@
     "disposable.json",
     "index.test.js"
   ],
-  "version": "2.0.16",
+  "version": "2.0.17",
   "author": "Bret Comnes <bcomnes@gmail.com> (https://bret.io)",
   "bugs": {
     "url": "https://github.com/bcomnes/resolve-email/issues"
