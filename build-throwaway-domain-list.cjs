@@ -16,7 +16,7 @@ const work = async () => {
   }
 
   console.log('Adding emailvalid')
-  const disposableOnly = Object.entries(emailvalidDomains).filter(([domain, type]) => type === 'disposable').map(([domain, type]) => domain)
+  const disposableOnly = Object.entries(emailvalidDomains).filter(([_domain, type]) => type === 'disposable').map(([domain, _type]) => domain)
 
   for (const domain of disposableOnly) {
     disposableEmailDomains.add(domain)
