@@ -11,7 +11,7 @@ import { disposable } from './disposable.cjs'
 /**
  * @typedef {Object} ResolveResult
  * @property {boolean} emailResolves The email address has resolved and is not banned according to the allowable options.
- * @property {Array<Object>} [mxRecords] Any associated mx records from the lookup
+ * @property {Array<{priority: number, exchange: string}>} [mxRecords] Any associated mx records from the lookup
  * @property {Error} [error] The error object if something didn't work
  */
 
