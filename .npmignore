@@ -7,8 +7,4 @@ public
 .env
 dependency-graph.html
 .tap
-
-# Generated types
-
-*.d.ts
-*.d.ts.map
+disposable-email-domains

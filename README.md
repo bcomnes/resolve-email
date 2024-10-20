@@ -2,6 +2,7 @@
 [![latest version](https://img.shields.io/npm/v/resolve-email.svg)](https://www.npmjs.com/package/resolve-email)
 [![Actions Status](https://github.com/bcomnes/resolve-email/workflows/tests/badge.svg)](https://github.com/bcomnes/resolve-email/actions)
 [![Coverage Status](https://coveralls.io/repos/github/bcomnes/resolve-email/badge.svg?branch=master)](https://coveralls.io/github/bcomnes/resolve-email?branch=master)
+[![Types in JS](https://img.shields.io/badge/types_in_js-yes-brightgreen)](https://github.com/voxpelli/types-in-js)
 [![downloads](https://img.shields.io/npm/dm/resolve-email.svg)](https://npmtrends.com/resolve-email)
 [![Socket Badge](https://socket.dev/api/badge/npm/package/resolve-email)](https://socket.dev/npm/package/resolve-email)
 
