@@ -29,6 +29,11 @@ const work = async () => {
     disposableEmailDomains.delete(domain)
   }
 
+  const allowListOverride = require('./allow-list.json')
+  allowListOverride.forEach(domain => {
+    disposableEmailDomains.delete(domain)
+  })
+
   console.log('Add in any other random domains I dont want to register')
   const unwatedDomains = [
     'tmail.link'

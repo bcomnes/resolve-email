@@ -22,6 +22,10 @@ const inputs = [
   {
     in: 'fofegoj914@naymedia.com',
     expect: false
+  },
+  {
+    in: 'test@rocketmail.com',
+    expect: true
   }
 ]
 
