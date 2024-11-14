@@ -22,25 +22,23 @@ const work = async () => {
     disposableEmailDomains.add(domain)
   }
 
-  console.log('Removing anything in allowlist')
+  console.log('Removing anything in disposable-email-domains/allowlist.conf')
+  // I guess newlines are a format too
   const allowDataRaw = await readFile(allowList, { encoding: 'utf-8' })
   const allowData = allowDataRaw.split('\n').slice(0, -1)
   for (const domain of allowData) {
     disposableEmailDomains.delete(domain)
   }
 
+  const denyListOverride = require('./deny-list.json')
+  denyListOverride.forEach(domain => {
+    disposableEmailDomains.add(domain)
+  })
+
   const allowListOverride = require('./allow-list.json')
   allowListOverride.forEach(domain => {
     disposableEmailDomains.delete(domain)
   })
-
-  console.log('Add in any other random domains I dont want to register')
-  const unwatedDomains = [
-    'tmail.link'
-  ]
-  for (const unwantedDomain of unwatedDomains) {
-    disposableEmailDomains.add(unwantedDomain)
-  }
 
   await writeFile('disposable.json', JSON.stringify(Array.from(disposableEmailDomains).sort(), null, ' '))
   console.log('done')

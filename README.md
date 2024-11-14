@@ -6,7 +6,7 @@
 [![downloads](https://img.shields.io/npm/dm/resolve-email.svg)](https://npmtrends.com/resolve-email)
 [![Socket Badge](https://socket.dev/api/badge/npm/package/resolve-email)](https://socket.dev/npm/package/resolve-email)
 
-Resolve the domain of a syntactically valid email address to see if there is even a chance of deliverability. Also checks against a large list of disposable email address domains and rejects those.
+Resolve the domain of a syntactically valid email address to see if there is even a chance of deliverability. Also checks against a large list of disposable email and other junk/unwated address domains and rejects those.
 
 ```
 npm install resolve-email

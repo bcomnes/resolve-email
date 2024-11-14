@@ -9,30 +9,38 @@ import { resolveEmail } from './index.js'
 const inputs = [
   {
     in: 'bcomnes@gmail.com',
-    expect: true
+    expect: true,
   },
   {
     in: 'bcomnes@gmailc.om',
-    expect: false
+    expect: false,
   },
   {
     in: 'afastmail@fastmail.com',
-    expect: true
+    expect: true,
   },
   {
     in: 'fofegoj914@naymedia.com',
-    expect: false
+    expect: false,
   },
   {
     in: 'test@rocketmail.com',
-    expect: true
-  }
+    expect: true,
+  },
+  {
+    in: 'example@Cock.li',
+    expect: false,
+  },
 ]
 
 for (const i of inputs) {
   test(`${i.in} ${i.expect ? 'resolves' : 'does not resolve'}`, async (/** @type {TestContext} */ _t) => {
     const results = await resolveEmail(i.in)
 
-    assert.strictEqual(results.emailResolves, i.expect, `${i.in} ${i.expect ? 'resolves' : 'does not resolve'}`)
+    assert.strictEqual(
+      results.emailResolves,
+      i.expect,
+      `${i.in} ${i.expect ? 'resolves' : 'does not resolve'}`
+    )
   })
 }
