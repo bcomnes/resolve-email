@@ -1,6 +1,6 @@
 import { isIP } from 'node:net'
 import { resolveMx, resolve4, resolve6 } from 'node:dns/promises'
-import { disposable } from './disposable.cjs'
+import { DatabaseSync } from 'node:sqlite'
 
 /**
  * @typedef {Object} ResolveOptions
@@ -14,6 +14,30 @@ import { disposable } from './disposable.cjs'
  * @property {Array<{priority: number, exchange: string}>} [mxRecords] Any associated mx records from the lookup
  * @property {Error} [error] The error object if something didn't work
  */
+
+let db
+
+/**
+ * Initialize the SQLite database connection.
+ */
+function initDatabase () {
+  if (!db) {
+    db = new DatabaseSync('./disposable.db')
+  }
+}
+
+/**
+ * Check if the domain is disposable by querying the SQLite database.
+ *
+ * @param {string} domain
+ * @returns {boolean}
+ */
+function isDisposable (domain) {
+  initDatabase()
+  const query = db.prepare('SELECT 1 FROM disposable_domains WHERE domain = ?')
+  const result = query.get(domain)
+  return !!result
+}
 
 /**
  * Resolves MX records for the provided email domain.
@@ -41,7 +65,7 @@ export async function _resolveMx (email, opts) {
     }
   }
 
-  if (disposable.has(domain) && !opts.allowDisposable) {
+  if (isDisposable(domain) && !opts.allowDisposable) {
     throw new Error('Disposable email addresses are disallowed')
   }
 
@@ -49,7 +73,6 @@ export async function _resolveMx (email, opts) {
     const resolved = await resolveMx(domain)
     return resolved.sort((a, b) => (a?.priority ?? 0) - (b?.priority ?? 0))
   } catch (err) {
-    // @ts-ignore
     if (!['ENODATA', 'ENOTFOUND'].includes(err.code)) {
       throw err
     }
@@ -57,7 +80,6 @@ export async function _resolveMx (email, opts) {
     try {
       return await ipFallback(domain, resolve4)
     } catch (err) {
-      // @ts-ignore
       if (!['ENODATA', 'ENOTFOUND'].includes(err.code)) {
         throw err
       }
@@ -100,7 +122,6 @@ export async function resolveEmail (domain, opts) {
   } catch (err) {
     return {
       emailResolves: false,
-      // @ts-ignore
       error: err
     }
   }
