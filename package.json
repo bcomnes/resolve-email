@@ -16,7 +16,7 @@
     "installed-check": "^9.3.0",
     "@voxpelli/tsconfig": "^15.0.0",
     "@types/node": "^22.1.0",
-    "typescript": "~5.7.2"
+    "typescript": "~5.8.2"
   },
   "engines": {
     "node": ">=18.0.0",
