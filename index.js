@@ -7,6 +7,9 @@ import { disposable } from './disposable.cjs'
  * @property {boolean} [allowIps=true] Allow bare IPs as email addresses
  * @property {boolean} [allowDisposable=false] Allow disposable email addresses
  */
+import { wcDisposable } from './wildcard-disposable.cjs'
+import { reasonableEmail } from './reasonable-email.js'
+import { parse } from 'tldts'
 
 /**
  * @typedef {Object} ResolveResult
@@ -28,20 +31,25 @@ export async function _resolveMx (email, opts) {
     allowDisposable: false,
     ...opts
   }
-  const domain = (email.split('@').pop() || '').toLowerCase().trim().replace(/^\[(ipv6:)?|\]$/gi, '')
-
-  if (isIP(domain)) {
-    if (opts.allowIps) {
-      return [{
-        priority: 0,
-        exchange: domain
-      }]
-    } else {
-      throw new Error('An email address with an IP address for the domain is disallowed')
-    }
+  if (typeof email !== 'string' || !email.match(reasonableEmail)) {
+    throw new Error('This email address is not reasonable')
   }
 
-  if (disposable.has(domain) && !opts.allowDisposable) {
+  const domain = (email.split('@').pop() || '').toLowerCase().trim().replace(/^\[(ipv6:)?|\]$/gi, '')
+
+  const parsed = parse(domain)
+  const domainWithSuffix = parsed.domain
+  const domainWithoutSuffix = parsed.domainWithoutSuffix
+
+  if (!domainWithoutSuffix || !domainWithSuffix) {
+    throw new Error('Invalid domain format', { cause: domain })
+  }
+
+  if (isIP(domain) || parsed.isIp) {
+    throw new Error('An email address with an IP address for the domain is disallowed')
+  }
+
+  if (!opts.allowDisposable && (disposable.has(domainWithSuffix) || wcDisposable.has(domainWithoutSuffix))) {
     throw new Error('Disposable email addresses are disallowed')
   }
 

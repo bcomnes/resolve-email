@@ -31,10 +31,35 @@ const inputs = [
     in: 'example@Cock.li',
     expect: false,
   },
+  // Test wildcard domain patterns
+  {
+    in: 'test@spambog.com',
+    expect: false,
+    description: 'should match wildcard pattern spambog.*'
+  },
+  {
+    in: 'test@spambog.net',
+    expect: false,
+    description: 'should match wildcard pattern spambog.*'
+  },
+  {
+    in: 'test@discardmail.org',
+    expect: false,
+    description: 'should match wildcard pattern discardmail.*'
+  },
+  {
+    in: 'test@mailcatch.xyz',
+    expect: false,
+    description: 'should match wildcard pattern mailcatch.*'
+  }
 ]
 
 for (const i of inputs) {
-  test(`${i.in} ${i.expect ? 'resolves' : 'does not resolve'}`, async (/** @type {TestContext} */ _t) => {
+  const testName = i.description
+    ? `${i.in} ${i.expect ? 'resolves' : 'does not resolve'} (${i.description})`
+    : `${i.in} ${i.expect ? 'resolves' : 'does not resolve'}`
+
+  test(testName, async (/** @type {TestContext} */ _t) => {
     const results = await resolveEmail(i.in)
 
     assert.strictEqual(

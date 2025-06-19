@@ -7,6 +7,7 @@
 [![Socket Badge](https://socket.dev/api/badge/npm/package/resolve-email)](https://socket.dev/npm/package/resolve-email)
 
 Resolve the domain of a syntactically valid email address to see if there is even a chance of deliverability. Also checks against a large list of disposable email and other junk/unwated address domains and rejects those.
+It also checks the email address against the (updated) [zod reasonable email regex](https://colinhacks.com/essays/reasonable-email-regex) and filters out unreasonable email addresses.
 
 ```
 npm install resolve-email

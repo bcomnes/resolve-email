@@ -1,7 +1,12 @@
 {
   "extends": "@voxpelli/tsconfig/node20.json",
   "compilerOptions": {
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "erasableSyntaxOnly": true,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "verbatimModuleSyntax": true,
+    "module": "nodenext"
   },
   "include": [
     "./**/*"
