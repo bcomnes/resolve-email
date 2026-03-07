@@ -70,13 +70,13 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
+      - name: git status before version
+        run: git status --short --branch
+
       - name: npm version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm version "${{ steps.resolve_version.outputs.newversion }}"
-
-      - name: git status after version
-        run: git status --short --branch
 
       - name: npm publish
         run: npm publish
