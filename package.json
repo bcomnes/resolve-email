@@ -11,7 +11,7 @@
     "@voxpelli/tsconfig": "^16.0.0",
 
     "emailvalid": "^1.0.4",
-    "releasearoni": "^0.1.5",
+    "releasearoni": "^0.1.9",
     "installed-check": "^10.0.1",
     "neostandard": "^0.13.0",
     "npm-run-all2": "^8.0.1",
