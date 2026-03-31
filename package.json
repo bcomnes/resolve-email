@@ -1,7 +1,7 @@
 {
   "name": "resolve-email",
   "description": "Resolve the domain of an email address to see if it even has a chance of delivering",
-  "version": "4.0.35",
+  "version": "4.0.36",
   "author": "Bret Comnes <bcomnes@gmail.com> (https://bret.io)",
   "bugs": {
     "url": "https://github.com/bcomnes/resolve-email/issues"
@@ -69,7 +69,6 @@
     "type": "individual",
     "url": "https://github.com/sponsors/bcomnes"
   },
-
   "dependencies": {
     "tldts": "^7.0.9"
   }
