@@ -12,3 +12,4 @@ dependency-graph.html
 
 *.d.ts
 *.d.ts.map
+lcov.info

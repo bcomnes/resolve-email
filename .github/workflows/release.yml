@@ -79,4 +79,6 @@ jobs:
         run: npm version "${{ steps.resolve_version.outputs.newversion }}"
 
       - name: npm publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm publish
