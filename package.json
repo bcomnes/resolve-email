@@ -9,9 +9,9 @@
   "devDependencies": {
     "@types/node": "^25.0.0",
     "@voxpelli/tsconfig": "^16.0.0",
-    "c8": "^11.0.0",
+
     "emailvalid": "^1.0.4",
-    "releasearoni": "^0.1.0",
+    "releasearoni": "^0.1.5",
     "installed-check": "^10.0.1",
     "neostandard": "^0.13.0",
     "npm-run-all2": "^8.0.1",
@@ -23,6 +23,17 @@
   },
   "homepage": "https://github.com/bcomnes/resolve-email",
   "keywords": [],
+  "files": [
+    "index.js",
+    "*.d.ts",
+    "*.d.ts.map",
+    "reasonable-email.js",
+    "disposable.cjs",
+    "disposable.json",
+    "wildcard-disposable.cjs",
+    "wildcard-disposable.json",
+    "CHANGELOG.md"
+  ],
   "license": "MIT",
   "type": "module",
   "module": "index.js",
@@ -35,7 +46,8 @@
   },
   "scripts": {
     "prepare": "npm run build:throwaway",
-    "prepublishOnly": "npm run build && git push --follow-tags && releasearoni -y",
+    "preversion": "releasearoni preversion",
+    "prepublishOnly": "releasearoni npm-check && npm run build && git push --follow-tags && releasearoni -y",
     "postpublish": "npm run clean",
     "clean": "run-p clean:*",
     "clean:declarations-top": "rm -rf $(find . -maxdepth 1 -type f -name '*.d.ts*' -o -name '*.d.cts*')",
@@ -45,7 +57,7 @@
     "test": "run-s test:*",
     "test:neostandard": "eslint .",
     "test:tsc": "tsc",
-    "test:node-test": "c8 node --test --test-reporter spec",
+    "test:node-test": "node --experimental-test-coverage --test-coverage-exclude '**/*.test.js' --test-coverage-exclude 'fuzz-test.js' --test-coverage-exclude 'build-throwaway-domain-list.cjs' --test-coverage-exclude '*.config.*' --test --test-reporter spec",
     "test:installed-check": "installed-check --ignore-dev",
     "version": "npm run prepare && releasearoni version --add disposable.json --add wildcard-disposable.json"
   },
@@ -58,12 +70,7 @@
     "type": "individual",
     "url": "https://github.com/sponsors/bcomnes"
   },
-  "c8": {
-    "reporter": [
-      "lcov",
-      "text"
-    ]
-  },
+
   "dependencies": {
     "tldts": "^7.0.9"
   }
