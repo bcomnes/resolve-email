@@ -43,7 +43,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.node_version }}
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm i
@@ -74,8 +73,6 @@ jobs:
         run: git status --short --branch
 
       - name: npm version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm version "${{ steps.resolve_version.outputs.newversion }}"
 
       - name: npm publish
