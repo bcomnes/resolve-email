@@ -10,7 +10,7 @@
     "@types/node": "^25.0.0",
     "@voxpelli/tsconfig": "^16.0.0",
     "emailvalid": "^1.0.4",
-    "releasearoni": "^0.1.12",
+    "releasearoni": "^0.1.14",
     "installed-check": "^10.0.1",
     "neostandard": "^0.13.0",
     "npm-run-all2": "^8.0.1",
