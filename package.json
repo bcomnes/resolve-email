@@ -44,8 +44,6 @@
     "url": "https://github.com/bcomnes/resolve-email.git"
   },
   "scripts": {
-    "prepare": "npm run build:throwaway",
-    "preversion": "releasearoni preversion",
     "prepublishOnly": "releasearoni",
     "postpublish": "npm run clean",
     "clean": "run-p clean:*",
@@ -58,7 +56,7 @@
     "test:tsc": "tsc",
     "test:node-test": "node --experimental-test-coverage --test-coverage-exclude '**/*.test.js' --test-coverage-exclude 'fuzz-test.js' --test-coverage-exclude 'build-throwaway-domain-list.cjs' --test-coverage-exclude '*.config.*' --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info",
     "test:installed-check": "installed-check --ignore-dev",
-    "version": "npm run prepare && releasearoni version --add disposable.json --add wildcard-disposable.json"
+    "version": "run-s build:throwaway && releasearoni version --add disposable.json --add wildcard-disposable.json"
   },
   "standard": {
     "ignore": [
