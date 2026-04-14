@@ -11,7 +11,6 @@ const wildcardDomains = new Set()
 const disposableEmailDomainsPath = join(__dirname, 'disposable-email-domains', 'disposable_email_blocklist.conf')
 const upstreamAllowList = join(__dirname, 'upstream-allow-list.json')
 
-
 /**
  * Checks if a domain is a wildcard pattern (ends with .*)
  *
