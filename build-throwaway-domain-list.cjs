@@ -9,7 +9,8 @@ const disposableEmailDomains = new Set()
 const wildcardDomains = new Set()
 
 const disposableEmailDomainsPath = join(__dirname, 'disposable-email-domains', 'disposable_email_blocklist.conf')
-const allowList = join(__dirname, 'disposable-email-domains', 'allowlist.conf')
+const upstreamAllowList = join(__dirname, 'upstream-allow-list.json')
+
 
 /**
  * Checks if a domain is a wildcard pattern (ends with .*)
@@ -87,11 +88,10 @@ const work = async () => {
   }
   console.log(`Skipped ${skippedEmailvalidCount} domains from emailvalid that don't pass the reasonableEmail regex`)
 
-  console.log('Removing anything in disposable-email-domains/allowlist.conf')
-  // I guess newlines are a format too
-  const allowDataRaw = await readFile(allowList, { encoding: 'utf-8' })
-  const allowData = allowDataRaw.split('\n').slice(0, -1)
-  for (const domain of allowData) {
+  console.log('Removing anything in upstream-allow-list.json (preserved from upstream allowlist.conf)')
+  /** @type {string[]} */
+  const upstreamAllowData = JSON.parse(await readFile(upstreamAllowList, { encoding: 'utf-8' }))
+  for (const domain of upstreamAllowData) {
     disposableEmailDomains.delete(domain)
     wildcardDomains.delete(getBaseDomain(domain))
   }
