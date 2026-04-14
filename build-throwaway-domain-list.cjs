@@ -9,7 +9,7 @@ const disposableEmailDomains = new Set()
 const wildcardDomains = new Set()
 
 const disposableEmailDomainsPath = join(__dirname, 'disposable-email-domains', 'disposable_email_blocklist.conf')
-const upstreamAllowList = join(__dirname, 'upstream-allow-list.json')
+const upstreamWhitelist = join(__dirname, 'upstream-whitelist.json')
 
 /**
  * Checks if a domain is a wildcard pattern (ends with .*)
@@ -55,9 +55,9 @@ function isReasonableDomain (domain) {
 const work = async () => {
   // Sources are applied in the following order of precedence (later steps win):
   // 1. External block lists  - disposable-email-domains, emailvalid
-  // 2. External allow list   - upstream-allow-list.json (preserved from upstream allowlist.conf)
-  // 3. Internal block list   - deny-list.json
-  // 4. Internal allow list   - allow-list.json
+  // 2. External whitelist    - upstream-whitelist.json (preserved from upstream allowlist.conf)
+  // 3. Internal blacklist    - blacklist.json
+  // 4. Internal whitelist    - whitelist.json
   console.log('Adding disposable-email-domains')
   const disposableEmailDomainsRaw = await readFile(disposableEmailDomainsPath, { encoding: 'utf-8' })
   /** @type {string[]} */
@@ -92,32 +92,32 @@ const work = async () => {
   }
   console.log(`Skipped ${skippedEmailvalidCount} domains from emailvalid that don't pass the reasonableEmail regex`)
 
-  console.log('Removing anything in upstream-allow-list.json (preserved from upstream allowlist.conf)')
+  console.log('Removing anything in upstream-whitelist.json (preserved from upstream allowlist.conf)')
   /** @type {string[]} */
-  const upstreamAllowData = JSON.parse(await readFile(upstreamAllowList, { encoding: 'utf-8' }))
-  for (const domain of upstreamAllowData) {
+  const upstreamWhitelistData = JSON.parse(await readFile(upstreamWhitelist, { encoding: 'utf-8' }))
+  for (const domain of upstreamWhitelistData) {
     disposableEmailDomains.delete(domain)
     wildcardDomains.delete(getBaseDomain(domain))
   }
 
   /** @type {string[]} */
-  const denyListOverride = require('./deny-list.json')
+  const blacklistOverride = require('./blacklist.json')
   /** @type {number} */
-  let skippedDenylistCount = 0
-  denyListOverride.forEach(domain => {
+  let skippedBlacklistCount = 0
+  blacklistOverride.forEach(domain => {
     if (isWildcardDomain(domain)) {
       wildcardDomains.add(getBaseDomain(domain))
     } else if (isReasonableDomain(domain)) {
       disposableEmailDomains.add(domain)
     } else {
-      skippedDenylistCount++
+      skippedBlacklistCount++
     }
   })
-  console.log(`Skipped ${skippedDenylistCount} domains from deny-list that don't pass the reasonableEmail regex`)
+  console.log(`Skipped ${skippedBlacklistCount} domains from blacklist that don't pass the reasonableEmail regex`)
 
   /** @type {string[]} */
-  const allowListOverride = require('./allow-list.json')
-  allowListOverride.forEach(domain => {
+  const whitelistOverride = require('./whitelist.json')
+  whitelistOverride.forEach(domain => {
     disposableEmailDomains.delete(domain)
     wildcardDomains.delete(getBaseDomain(domain))
   })
