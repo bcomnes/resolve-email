@@ -53,6 +53,11 @@ function isReasonableDomain (domain) {
  * @returns {Promise<void>}
  */
 const work = async () => {
+  // Sources are applied in the following order of precedence (later steps win):
+  // 1. External block lists  - disposable-email-domains, emailvalid
+  // 2. External allow list   - upstream-allow-list.json (preserved from upstream allowlist.conf)
+  // 3. Internal block list   - deny-list.json
+  // 4. Internal allow list   - allow-list.json
   console.log('Adding disposable-email-domains')
   const disposableEmailDomainsRaw = await readFile(disposableEmailDomainsPath, { encoding: 'utf-8' })
   /** @type {string[]} */
