@@ -7,7 +7,7 @@
     "url": "https://github.com/bcomnes/resolve-email/issues"
   },
   "devDependencies": {
-    "@types/node": "^25.0.0",
+    "@types/node": "^26.0.0",
     "@voxpelli/tsconfig": "^16.0.0",
     "emailvalid": "^1.0.4",
     "releasearoni": "^0.2.0",
